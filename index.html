@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WasteWise | Smart Waste Segregation</title>
+    <meta
+      name="description"
+      content="Classify household waste into the right bin with AI-powered guidance, disposal tips, and eco-impact facts."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true">
+      <div class="blob blob-a"></div>
+      <div class="blob blob-b"></div>
+      <div class="blob blob-c"></div>
+    </div>
+
+    <header class="site-header shell">
+      <div>
+        <p class="eyebrow">Competition MVP</p>
+        <h1>WasteWise</h1>
+      </div>
+      <nav class="view-nav" aria-label="Primary">
+        <a class="nav-link active" href="index.html" aria-current="page">Tool</a>
+        <a class="nav-link" href="learn.html">Learn</a>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="hero reveal" aria-labelledby="tool-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Everyday Waste, Zero Guesswork</p>
+          <h2 id="tool-title">Type an item. Get the right bin instantly.</h2>
+          <p>
+            WasteWise classifies your item into wet, dry, hazardous, e-waste, or medical waste,
+            then gives a practical disposal tip and an eco-impact fact.
+          </p>
+        </div>
+
+        <div class="panel">
+          <form id="classifier-form" novalidate>
+            <label for="waste-item">What are you throwing away?</label>
+            <div class="input-row">
+              <input
+                id="waste-item"
+                name="waste-item"
+                placeholder="Example: used tea bag, old phone charger, expired syrup"
+                maxlength="120"
+                autocomplete="off"
+                required
+              />
+              <button id="voice-btn" class="mic-btn" type="button" aria-label="Use voice input">Voice</button>
+              <button id="analyze-btn" type="submit">Classify</button>
+            </div>
+            <p id="form-message" class="form-message" aria-live="polite"></p>
+            <div class="quick-picks" aria-label="Quick sample items">
+              <span>Quick picks</span>
+              <div id="quick-picks-list" class="chip-list">
+                <button type="button" class="chip-btn" data-item="used tea bag">used tea bag</button>
+                <button type="button" class="chip-btn" data-item="old phone charger">old phone charger</button>
+                <button type="button" class="chip-btn" data-item="expired cough syrup">expired cough syrup</button>
+                <button type="button" class="chip-btn" data-item="paint thinner can">paint thinner can</button>
+              </div>
+            </div>
+          </form>
+
+          <details class="api-config">
+            <summary>Claude API Key (optional for live AI)</summary>
+            <div class="api-fields">
+              <label for="api-key">Anthropic API key</label>
+              <div class="input-row">
+                <input
+                  id="api-key"
+                  type="password"
+                  placeholder="sk-ant-api03-..."
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <button id="save-key-btn" type="button">Save Key</button>
+              </div>
+              <p class="hint">
+                Key is stored locally in your browser only. Without a key, WasteWise uses an offline
+                fallback classifier so your demo still works.
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="result-wrap reveal" aria-live="polite" aria-atomic="true">
+        <div id="dustbin-container" class="dustbin-container hidden">
+          <div class="dustbin-visual" id="dustbin-visual">
+            <svg viewBox="0 0 120 160" class="dustbin-svg" aria-hidden="true">
+              <!-- Lid -->
+              <ellipse cx="60" cy="15" rx="55" ry="12" class="dustbin-lid" />
+              <path d="M 8 15 Q 8 25 15 30 L 105 30 Q 112 25 112 15" class="dustbin-lid-shadow" />
+              
+              <!-- Main body -->
+              <path d="M 15 30 L 20 145 Q 20 152 28 155 L 92 155 Q 100 152 100 145 L 105 30 Z" class="dustbin-body" />
+              
+              <!-- Handle -->
+              <path d="M 40 25 Q 40 15 60 12 Q 80 15 80 25" class="dustbin-handle" />
+              
+              <!-- Shine effect -->
+              <ellipse cx="35" cy="60" rx="8" ry="25" class="dustbin-shine" opacity="0.4" />
+            </svg>
+            <p id="dustbin-label" class="dustbin-label">Tap to confirm!</p>
+          </div>
+        </div>
+
+        <article id="result-card" class="result-card hidden" role="status">
+          <div class="result-head">
+            <div class="icon-token" id="result-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-dry"></use></svg>
+            </div>
+            <div>
+              <p class="result-label">Recommended Bin</p>
+              <h3 id="result-category">Dry Waste</h3>
+            </div>
+            <span id="result-source" class="source-chip">Offline Fallback</span>
+          </div>
+
+          <dl class="result-grid">
+            <div>
+              <dt>Item</dt>
+              <dd id="result-item"></dd>
+            </div>
+            <div>
+              <dt>Disposal Tip</dt>
+              <dd id="result-tip"></dd>
+            </div>
+            <div>
+              <dt>Eco-Impact Fact</dt>
+              <dd id="result-fact"></dd>
+            </div>
+            <div>
+              <dt>Confidence</dt>
+              <dd>
+                <div class="meter" aria-hidden="true"><span id="confidence-fill"></span></div>
+                <span id="confidence-text">0%</span>
+              </dd>
+            </div>
+          </dl>
+
+          <div class="result-actions">
+            <button id="copy-btn" type="button" class="ghost-btn">Copy Result</button>
+            <button id="reset-btn" type="button" class="ghost-btn">Classify Another Item</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="insights reveal" aria-label="Recent activity and analytics">
+        <article class="panel stats-panel">
+          <h3>Live Dashboard</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <p>Total checks</p>
+              <strong id="stat-total">0</strong>
+            </div>
+            <div class="stat-card">
+              <p>Live AI runs</p>
+              <strong id="stat-live">0</strong>
+            </div>
+            <div class="stat-card">
+              <p>Fallback runs</p>
+              <strong id="stat-fallback">0</strong>
+            </div>
+            <div class="stat-card">
+              <p>Most common</p>
+              <strong id="stat-top">-</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel history-panel">
+          <div class="history-head">
+            <h3>Recent Classifications</h3>
+            <div class="history-actions">
+              <button id="export-history-btn" type="button" class="ghost-btn">Export JSON</button>
+              <button id="clear-history-btn" type="button" class="ghost-btn">Clear</button>
+            </div>
+          </div>
+          <ul id="history-list" class="history-list" aria-live="polite"></ul>
+        </article>
+      </section>
+    </main>
+
+    <svg width="0" height="0" class="hidden" aria-hidden="true" focusable="false">
+      <symbol id="icon-wet" viewBox="0 0 24 24">
+        <path d="M12 2C9 6 6 9 6 13a6 6 0 1 0 12 0c0-4-3-7-6-11Zm0 19a4 4 0 0 1-4-4c0-1.7 1.2-3.7 4-7.3 2.8 3.6 4 5.6 4 7.3a4 4 0 0 1-4 4Z" />
+      </symbol>
+      <symbol id="icon-dry" viewBox="0 0 24 24">
+        <path d="M4 4h16v16H4V4Zm2 2v12h12V6H6Zm2 2h8v8H8V8Z" />
+      </symbol>
+      <symbol id="icon-hazardous" viewBox="0 0 24 24">
+        <path d="M12 3 2 21h20L12 3Zm0 4 6.5 12h-13L12 7Zm-1 3h2v5h-2v-5Zm0 6h2v2h-2v-2Z" />
+      </symbol>
+      <symbol id="icon-e-waste" viewBox="0 0 24 24">
+        <path d="M3 5h18v11H3V5Zm2 2v7h14V7H5Zm5 10h4v2h3v2H7v-2h3v-2Z" />
+      </symbol>
+      <symbol id="icon-medical" viewBox="0 0 24 24">
+        <path d="M10 3h4v4h4v4h-4v4h-4v-4H6V7h4V3Zm-2 10h2v4h4v-4h2v6H8v-6Z" />
+      </symbol>
+    </svg>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

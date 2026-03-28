@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WasteWise | Learn Waste Categories</title>
+    <meta
+      name="description"
+      content="Learn wet, dry, hazardous, e-waste, and medical waste categories with practical examples and disposal guidance."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true">
+      <div class="blob blob-a"></div>
+      <div class="blob blob-b"></div>
+      <div class="blob blob-c"></div>
+    </div>
+
+    <header class="site-header shell">
+      <div>
+        <p class="eyebrow">Competition MVP</p>
+        <h1>WasteWise</h1>
+      </div>
+      <nav class="view-nav" aria-label="Primary">
+        <a class="nav-link" href="index.html">Tool</a>
+        <a class="nav-link active" href="learn.html" aria-current="page">Learn</a>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="learn" aria-labelledby="learn-title">
+        <div class="learn-head reveal">
+          <p class="eyebrow">Quick Reference</p>
+          <h2 id="learn-title">Waste categories at a glance</h2>
+          <p>Use this guide to understand examples and safe handling for each waste type.</p>
+        </div>
+
+        <div class="learn-grid reveal">
+          <article class="learn-wet">
+            <header>
+              <div class="icon-token">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-wet"></use></svg>
+              </div>
+              <div>
+                <h3>Wet Waste</h3>
+                <p>Compost when possible and avoid mixing with plastics.</p>
+              </div>
+            </header>
+            <strong>Examples</strong>
+            <ul>
+              <li>Fruit peels</li>
+              <li>Leftover food</li>
+              <li>Tea leaves</li>
+            </ul>
+          </article>
+
+          <article class="learn-dry">
+            <header>
+              <div class="icon-token">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-dry"></use></svg>
+              </div>
+              <div>
+                <h3>Dry Waste</h3>
+                <p>Keep recyclables clean and dry before disposal.</p>
+              </div>
+            </header>
+            <strong>Examples</strong>
+            <ul>
+              <li>Paper and cardboard</li>
+              <li>Clean plastic packaging</li>
+              <li>Metal cans</li>
+            </ul>
+          </article>
+
+          <article class="learn-hazardous">
+            <header>
+              <div class="icon-token">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-hazardous"></use></svg>
+              </div>
+              <div>
+                <h3>Hazardous Waste</h3>
+                <p>Store safely in original containers and use approved collection points.</p>
+              </div>
+            </header>
+            <strong>Examples</strong>
+            <ul>
+              <li>Paint thinner</li>
+              <li>Pesticides</li>
+              <li>Chemical cleaners</li>
+            </ul>
+          </article>
+
+          <article class="learn-e-waste">
+            <header>
+              <div class="icon-token">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-e-waste"></use></svg>
+              </div>
+              <div>
+                <h3>E-Waste</h3>
+                <p>Use certified e-waste centers and remove personal data first.</p>
+              </div>
+            </header>
+            <strong>Examples</strong>
+            <ul>
+              <li>Old phone chargers</li>
+              <li>Batteries and cables</li>
+              <li>Broken earphones</li>
+            </ul>
+          </article>
+
+          <article class="learn-medical">
+            <header>
+              <div class="icon-token">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-medical"></use></svg>
+              </div>
+              <div>
+                <h3>Medical Waste</h3>
+                <p>Seal items and hand over to pharmacy or hospital take-back systems.</p>
+              </div>
+            </header>
+            <strong>Examples</strong>
+            <ul>
+              <li>Expired medicines</li>
+              <li>Used bandages</li>
+              <li>Syringes in puncture-proof containers</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <svg width="0" height="0" class="hidden" aria-hidden="true" focusable="false">
+      <symbol id="icon-wet" viewBox="0 0 24 24">
+        <path d="M12 2C9 6 6 9 6 13a6 6 0 1 0 12 0c0-4-3-7-6-11Zm0 19a4 4 0 0 1-4-4c0-1.7 1.2-3.7 4-7.3 2.8 3.6 4 5.6 4 7.3a4 4 0 0 1-4 4Z" />
+      </symbol>
+      <symbol id="icon-dry" viewBox="0 0 24 24">
+        <path d="M4 4h16v16H4V4Zm2 2v12h12V6H6Zm2 2h8v8H8V8Z" />
+      </symbol>
+      <symbol id="icon-hazardous" viewBox="0 0 24 24">
+        <path d="M12 3 2 21h20L12 3Zm0 4 6.5 12h-13L12 7Zm-1 3h2v5h-2v-5Zm0 6h2v2h-2v-2Z" />
+      </symbol>
+      <symbol id="icon-e-waste" viewBox="0 0 24 24">
+        <path d="M3 5h18v11H3V5Zm2 2v7h14V7H5Zm5 10h4v2h3v2H7v-2h3v-2Z" />
+      </symbol>
+      <symbol id="icon-medical" viewBox="0 0 24 24">
+        <path d="M10 3h4v4h4v4h-4v4h-4v-4H6V7h4V3Zm-2 10h2v4h4v-4h2v6H8v-6Z" />
+      </symbol>
+    </svg>
+  </body>
+</html>
